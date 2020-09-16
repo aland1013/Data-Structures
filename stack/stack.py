@@ -35,6 +35,8 @@ class Stack:
         return value
 """
 
+# LinkedList Implementation
+
 from singly_linked_list import LinkedList, Node
 class Stack:
     def __init__(self):
@@ -42,10 +44,14 @@ class Stack:
         self.storage = LinkedList()
     
     def __len__(self):
-        return len(self.storage)
+        return self.size
     
     def push(self, value):
+        self.size += 1
         self.storage.add_to_tail(value)
     
     def pop(self):
+        if self.size > 0:
+            self.size -= 1
+        
         return self.storage.remove_tail()
