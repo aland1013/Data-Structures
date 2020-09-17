@@ -44,19 +44,21 @@ class DoublyLinkedList:
     Returns the value of the removed Node.
     """
     def remove_from_head(self):
+        value = self.head.value
+        
         if self.length == 0:
-            return
+            return value
+        
+        if self.length == 1:
+            self.head = None
+            self.tail = None
+            self.length = 0
+            return value
         
         self.length -= 1
-        old_head = self.head
-        new_head = self.head.next
+        self.head = self.head.next
         
-        self.head = new_head
-        
-        if new_head:
-            new_head.prev = None
-
-        return old_head.value
+        return value
             
     """
     Wraps the given value in a ListNode and inserts it 
@@ -64,14 +66,18 @@ class DoublyLinkedList:
     the old tail node's next pointer accordingly.
     """
     def add_to_tail(self, value):
-        self.length += 1
-        old_tail = self.tail
-        new_tail = ListNode(value, old_tail, None)
+        new_tail = ListNode(value, self.tail, None)
+        
+        if self.length == 0:
+            self.length = 1
+            self.head = new_tail
+            self.tail = new_tail
 
-        self.tail = new_tail
-
-        if old_tail:
+        else:
+            self.length += 1
+            old_tail = self.tail
             old_tail.next = new_tail
+            self.tail = new_tail
             
     """
     Removes the List's current tail node, making the 
@@ -79,16 +85,21 @@ class DoublyLinkedList:
     Returns the value of the removed Node.
     """
     def remove_from_tail(self):
+        value = self.tail.value
+        
         if self.length == 0:
-            return
+            return value
+        
+        if self.length == 1:
+            self.head = None
+            self.tail = None
+            self.length = 0
+            return value
         
         self.length -= 1
-        old_tail = self.tail
-        new_tail = self.tail.prev
+        self.tail = self.tail.prev
         
-        self.tail = new_tail
-        
-        return old_tail.value
+        return value
                     
     """
     Removes the input node from its current spot in the 
@@ -101,8 +112,12 @@ class DoublyLinkedList:
         if not prev_node:
             return
         
-        prev_node.next = next_node
-        next_node.prev = prev_node
+        if not next_node:
+            prev_node.next = None
+            self.tail = prev_node
+        else:
+            prev_node.next = next_node
+            next_node.prev = prev_node
         self.add_to_head(node.value)
         
     """
@@ -116,8 +131,12 @@ class DoublyLinkedList:
         if not next_node:
             return
         
-        prev_node.next = next_node
-        next_node.prev = prev_node
+        if prev_node:
+            prev_node.next = next_node
+            next_node.prev = prev_node
+        else:
+            next_node.prev = None
+            self.head = next_node
                 
         self.add_to_tail(node.value)
 
@@ -126,20 +145,31 @@ class DoublyLinkedList:
     order of the other elements of the List.
     """
     def delete(self, node):
-        self.length -= 1
-        prev_node = node.prev
-        next_node = node.next
-       
-        if not prev_node:
-            self.head = next_node
-        else:
-            prev_node.next = next_node
+        if self.length == 0:
+            return
         
-        if not next_node:
-            self.tail = prev_node
-        else:
-            next_node.prev = prev_node
-            
+        if self.length == 1:
+            self.length = 0
+            self.head = None
+            self.tail = None
+            return
+        
+        self.length -= 1
+          
+        left = node.prev
+        right = node.next
+        
+        if not left:
+            self.remove_from_head()
+            return
+        
+        if not right:
+            self.remove_from_tail()
+            return
+        
+        left.next = right
+        right.prev = left
+                   
     """
     Finds and returns the maximum value of all the nodes 
     in the List.
