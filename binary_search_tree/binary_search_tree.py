@@ -131,27 +131,23 @@ class BSTNode:
 
 class Stack:
     def __init__(self):
-        self.size = 0
         self.storage = []
 
     def __len__(self):
-        return self.size
+        return len(self.storage)
 
     def push(self, value):
-        self.size += 1
         self.storage.append(value)
         return self.storage
 
     def pop(self):
-        if self.size == 0:
+        if len(self) == 0:
             return
-        self.size -= 1
         value = self.storage.pop()
         return value
 
 class Queue:
     def __init__(self):
-        self.size = 0
         self.storage = []
     
     def __len__(self):
@@ -161,7 +157,7 @@ class Queue:
         self.storage.append(value)
 
     def dequeue(self):
-        if len(self.storage) > 0:
+        if len(self) > 0:
             return self.storage.pop(0)
         
         return None
