@@ -58,32 +58,108 @@ class BSTNode:
             self.right.for_each(fn)
 
     # Part 2 -----------------------
-
+    
     # Print all the values in order from low to high
     # Hint:  Use a recursive, depth first traversal
     def in_order_print(self):
-        pass
+        if self.left:
+            self.left.in_order_print()
+        
+        print(self.value)
+        
+        if self.right:
+            self.right.in_order_print()
+             
 
     # Print the value of every node, starting with the given node,
     # in an iterative breadth first traversal
     def bft_print(self):
-        pass
+        q = Queue()
+        q.enqueue(self)
+        
+        while len(q) != 0:
+            n = q.dequeue()
+            if n.left:
+                q.enqueue(n.left)
+            if n.right:
+                q.enqueue(n.right)
+            print(n.value)
+            
 
     # Print the value of every node, starting with the given node,
     # in an iterative depth first traversal
     def dft_print(self):
-        pass
+        s = Stack()
+        s.push(self)
+        
+        while len(s) != 0:
+            n = s.pop()
+            if n.right:
+                s.push(n.right)
+            if n.left:
+                s.push(n.left)
+            print(n.value)
+        
 
     # Stretch Goals -------------------------
     # Note: Research may be required
 
     # Print Pre-order recursive DFT
     def pre_order_dft(self):
-        pass
+        print(self.value)
+        
+        if self.left:
+            self.left.pre_order_dft()
+                
+        if self.right:
+            self.right.pre_order_dft()
 
     # Print Post-order recursive DFT
     def post_order_dft(self):
-        pass
+        if self.left:
+            self.left.post_order_dft()
+        
+        if self.right:
+            self.right.post_order_dft()
+        
+        print(self.value)
+
+class Stack:
+    def __init__(self):
+        self.size = 0
+        self.storage = []
+
+    def __len__(self):
+        return self.size
+
+    def push(self, value):
+        self.size += 1
+        self.storage.append(value)
+        return self.storage
+
+    def pop(self):
+        if self.size == 0:
+            return
+        self.size -= 1
+        value = self.storage.pop()
+        return value
+
+class Queue:
+    def __init__(self):
+        self.size = 0
+        self.storage = []
+    
+    def __len__(self):
+        return len(self.storage)
+
+    def enqueue(self, value):
+        self.storage.append(value)
+
+    def dequeue(self):
+        if len(self.storage) > 0:
+            return self.storage.pop(0)
+        
+        return None
 
 """
 This code is necessary for testing the `print` methods
