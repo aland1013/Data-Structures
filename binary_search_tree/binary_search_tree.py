@@ -52,8 +52,10 @@ class BSTNode:
     # Call the function `fn` on the value of each node
     def for_each(self, fn):
         fn(self.value)
+        
         if self.left:
             self.left.for_each(fn)
+        
         if self.right:
             self.right.for_each(fn)
 
@@ -70,7 +72,6 @@ class BSTNode:
         if self.right:
             self.right.in_order_print()
              
-
     # Print the value of every node, starting with the given node,
     # in an iterative breadth first traversal
     def bft_print(self):
@@ -79,13 +80,15 @@ class BSTNode:
         
         while len(q) != 0:
             n = q.dequeue()
+            
             if n.left:
                 q.enqueue(n.left)
+            
             if n.right:
                 q.enqueue(n.right)
+            
             print(n.value)
             
-
     # Print the value of every node, starting with the given node,
     # in an iterative depth first traversal
     def dft_print(self):
@@ -94,12 +97,14 @@ class BSTNode:
         
         while len(s) != 0:
             n = s.pop()
+            
             if n.right:
                 s.push(n.right)
+            
             if n.left:
                 s.push(n.left)
-            print(n.value)
-        
+            
+            print(n.value)    
 
     # Stretch Goals -------------------------
     # Note: Research may be required
