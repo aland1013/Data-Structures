@@ -164,10 +164,8 @@ class DoublyLinkedList:
             else:
                 if self.head == node:
                     self.head = self.head.next
-                    self.head.prev = None
                 elif self.tail == node:
                     self.tail = self.tail.prev
-                    self.tail.next = None
                 else:
                     left = node.prev
                     right = node.next
